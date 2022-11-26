@@ -1,0 +1,38 @@
+*{
+    background-color: wheat;
+}
+body{
+    display: flex;
+    height: 100vh;
+    overflow-y: hidden;
+    align-items: center;
+    justify-content: center;
+}
+
+
+#game-board{
+   min-width: 450px;
+   min-height: 450px;
+   display: grid;
+   grid-template-columns: repeat(3,1fr);
+   grid-template-rows: repeat(3,1fr);
+   background-color: white; 
+   border: transparent;
+}
+.cell{
+    background-color: wheat;
+    padding: 12px;
+    
+}
+.left{
+    border-left: none;
+}
+.top{
+    border-top: none;
+}
+.right{
+    border-right: none;
+}
+.bottom{
+    border-bottom: none;
+}
