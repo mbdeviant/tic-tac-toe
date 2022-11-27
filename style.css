@@ -23,7 +23,8 @@ body{
     background-color: wheat;
     padding: 12px;
     border: 2px solid black;
-    
+    text-align: center;
+    font-size: 110px;   
 }
 .left{
     border-left: none;
@@ -37,6 +38,6 @@ body{
 .bottom{
     border-bottom: none;
 }
-button:hover{
+div:hover{
     cursor: pointer;
 }
