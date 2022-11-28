@@ -19,6 +19,7 @@ const gameBoard = (() => {
     const reset = () => {
         for (let i = 0; i < board.length; i++) {
             board[i] = '';
+            displayControl.updateGameboard();
             console.log('reached');
         }
     }
@@ -29,10 +30,12 @@ const gameBoard = (() => {
 
 const displayControl = (() => {
     const cells = document.querySelectorAll('.cell');
-    cells.forEach(cell => {
+    cells.forEach(() => {
         addEventListener("click", (e) => {
+            if (e.target.textContent != '') return
             gameBoard.setSign(parseInt(e.target.dataset.index), gameplay.currentSign());
-            gameplay.checkSign();
+            gameplay.changeSign();
+            
             updateGameboard();
         })
     });
@@ -40,7 +43,6 @@ const displayControl = (() => {
     const updateGameboard = () => {
         for (let i = 0; i < cells.length; i++) {
             cells[i].textContent = gameBoard.getIndex(i);
-            // console.log(cells[i])
         }
     };
     return { updateGameboard }
@@ -56,16 +58,13 @@ const gameplay = (() => {
         return sign
     }
 
-
-    const checkSign = () => {
-        activePlayer == playerX ? activePlayer = playerO : activePlayer = playerX;
-       
+    const changeSign = () => {
+        (activePlayer == playerX) ? activePlayer = playerO : activePlayer = playerX;
     }
 
-    return { checkSign, currentSign };
+    return { changeSign, currentSign };
 })();
-gameplay.currentSign();
 
-displayControl.updateGameboard();
+
 gameBoard.reset();
 
