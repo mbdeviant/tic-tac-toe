@@ -10,61 +10,73 @@ const Player = (sign) => {
 
 const gameBoard = (() => {
     const board = ['', '', '', '', '', '', '', '', ''];
+
     const getIndex = index => {
         return board[index];
     }
-    const setSign = (index, sign) => {
+    const mark = (index, sign) => {
         board[index] = sign;
     }
     const reset = () => {
         for (let i = 0; i < board.length; i++) {
             board[i] = '';
-            displayControl.updateGameboard();
-            console.log('reached');
         }
     }
-    return { getIndex, reset, setSign, board }
-})();
 
+    return { getIndex, reset, mark }
+})();
 
 
 const displayControl = (() => {
     const cells = document.querySelectorAll('.cell');
+    const restartButton = document.getElementById('restart-button');
+
     cells.forEach(() => {
         addEventListener("click", (e) => {
             if (e.target.textContent != '') return
-            gameBoard.setSign(parseInt(e.target.dataset.index), gameplay.currentSign());
-            gameplay.changeSign();
-            
-            updateGameboard();
-        })
+            gameBoard.mark(parseInt(e.target.dataset.index), gameplay.currentSign());
+            gameplay.changePlayer();
+            render();
+        });
     });
-
-    const updateGameboard = () => {
+    restartButton.addEventListener('click', () => {
+        gameplay.restartGame();
+        render();
+    })
+    const render = () => {
         for (let i = 0; i < cells.length; i++) {
             cells[i].textContent = gameBoard.getIndex(i);
         }
+        
     };
-    return { updateGameboard }
+    return { render }
 })();
+
 
 const gameplay = (() => {
     const playerX = Player('X');
     const playerO = Player('O')
     let activePlayer = playerX;
 
+
     const currentSign = (sign) => {
         sign = activePlayer.getSign();
         return sign
     }
-
-    const changeSign = () => {
+    const restartGame = () => {
+        activePlayer = playerX;
+        gameBoard.reset();
+    }
+    const changePlayer = () => {
         (activePlayer == playerX) ? activePlayer = playerO : activePlayer = playerX;
     }
 
-    return { changeSign, currentSign };
+    return { changePlayer, currentSign, restartGame };
 })();
 
 
-gameBoard.reset();
+
+// overlay.style.display = 'block'; => to show gameover overlay
+// overlay.style.display = 'none';  => to hide gameover overlay
+
 
