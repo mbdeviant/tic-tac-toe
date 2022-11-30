@@ -27,7 +27,7 @@ const gameBoard = (() => {
 })();
 
 
-const displayControl = (() => {
+const displayControl = (() => { 
     const cells = document.querySelectorAll('.cell');
     const restartButton = document.getElementById('restart-button');
 
@@ -140,11 +140,3 @@ const showMessage = (() => {
     }
     return { winner, draw, changeTurn, resetTurn, closeOverlay }
 })();
-
-
-
-// message.textContent = `winner is ${gameplay.currentSign()}`;
-// overlay.style.display = 'block'; => to show gameover overlay
-// overlay.style.display = 'none';  => to hide gameover overlay
-
-
