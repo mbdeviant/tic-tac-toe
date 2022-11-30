@@ -43,8 +43,8 @@ body{
     border-bottom: none;
 }
 button{
-    font-size:34px;
     border: transparent;
+    font-size: 35px;
 }
 button:hover,
 div:hover{
