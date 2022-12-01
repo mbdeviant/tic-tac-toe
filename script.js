@@ -91,7 +91,7 @@ const gameplay = (() => {
     const checkWinner = () => {
         round++
         if (round === 9) showMessage.draw();
-        for (let i = 1; i < 8; i++) {
+        for (let i = 0; i < 8; i++) {
             const winCondition = conditions[i];
             const a = gameBoard.getIndex(winCondition[0]);
             const b = gameBoard.getIndex(winCondition[1]);
