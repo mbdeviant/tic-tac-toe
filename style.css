@@ -76,3 +76,7 @@ div:hover{
     right: 0;
     background-color: transparent;
 }
+#turn,
+#restart-button{
+    user-select: none;
+}
