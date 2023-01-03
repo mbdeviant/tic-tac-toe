@@ -7,11 +7,10 @@ const Player = (sign) => {
     return { getSign };
 };
 
-
 const gameBoard = (() => {
-    const board = ['', '', '', '', '', '', '', '', ''];
+    const board = ["", "", "", "", "", "", "", "", ""];
 
-    const getIndex = index => {
+    const getIndex = (index) => {
         return board[index];
     };
     const mark = (index, sign) => {
@@ -19,22 +18,24 @@ const gameBoard = (() => {
     };
     const reset = () => {
         for (let i = 0; i < board.length; i++) {
-            board[i] = '';
-        };
+            board[i] = "";
+        }
     };
 
-    return { getIndex, reset, mark }
+    return { getIndex, reset, mark };
 })();
 
-
-const displayControl = (() => { 
-    const cells = document.querySelectorAll('.cell');
-    const restartButton = document.getElementById('restart-button');
+const displayControl = (() => {
+    const cells = document.querySelectorAll(".cell");
+    const restartButton = document.getElementById("restart-button");
 
     cells.forEach(() => {
         addEventListener("click", (e) => {
-            if (e.target.textContent != '') return;
-            gameBoard.mark(parseInt(e.target.dataset.index), gameplay.currentSign());
+            if (e.target.textContent != "") return;
+            gameBoard.mark(
+                parseInt(e.target.dataset.index),
+                gameplay.currentSign()
+            );
             gameplay.changePlayer();
             showMessage.changeTurn();
             gameplay.checkWinner();
@@ -42,7 +43,7 @@ const displayControl = (() => {
         });
     });
 
-    restartButton.addEventListener('click', () => {
+    restartButton.addEventListener("click", () => {
         gameplay.reset();
         showMessage.resetTurn();
         render();
@@ -51,17 +52,14 @@ const displayControl = (() => {
     const render = () => {
         for (let i = 0; i < cells.length; i++) {
             cells[i].textContent = gameBoard.getIndex(i);
-        };
-
+        }
     };
-    return { render }
+    return { render };
 })();
 
-
 const gameplay = (() => {
-
-    const playerX = Player('X');
-    const playerO = Player('O');
+    const playerX = Player("X");
+    const playerO = Player("O");
     let activePlayer = playerX;
     let round = 0;
     const conditions = [
@@ -77,7 +75,7 @@ const gameplay = (() => {
 
     const currentSign = (sign) => {
         sign = activePlayer.getSign();
-        return sign
+        return sign;
     };
     const reset = () => {
         activePlayer = playerX;
@@ -86,57 +84,55 @@ const gameplay = (() => {
         gameBoard.reset();
     };
     const changePlayer = () => {
-        (activePlayer == playerX) ? activePlayer = playerO : activePlayer = playerX;
+        activePlayer == playerX
+            ? (activePlayer = playerO)
+            : (activePlayer = playerX);
     };
     const checkWinner = () => {
-        round++
+        round++;
         if (round === 9) showMessage.draw();
         for (let i = 0; i < 8; i++) {
             const winCondition = conditions[i];
             const a = gameBoard.getIndex(winCondition[0]);
             const b = gameBoard.getIndex(winCondition[1]);
             const c = gameBoard.getIndex(winCondition[2]);
-            if (a == '' || b == '' || c == '') {
-                continue;
-            }
-            if (a == b && b == c) {
-                showMessage.winner();
-            }
+            if (a == "" || b == "" || c == "") continue;
+            if (a == b && b == c) showMessage.winner();
         }
     };
 
-    return { changePlayer, currentSign, reset, checkWinner };
+    return { changePlayer, currentSign, reset, checkWinner, conditions };
 })();
 
 const showMessage = (() => {
-    const overlay = document.getElementById('overlay');
-    const message = document.getElementById('message');
-    const turn = document.getElementById('turn');
+    const overlay = document.getElementById("overlay");
+    const message = document.getElementById("message");
+    const turn = document.getElementById("turn");
 
     const winner = () => {
-        overlay.style.display = 'block';
+        overlay.style.display = "block";
         gameplay.changePlayer();
         message.textContent = `Player ${gameplay.currentSign()} has won!`;
         closeOverlay();
-    }
+    };
 
     const draw = () => {
-        overlay.style.display = 'block';
+        overlay.style.display = "block";
         message.textContent = `ROUND DRAW`;
         closeOverlay();
-    }
+    };
     const changeTurn = () => {
-        turn.textContent = `Turn: ${gameplay.currentSign()}`
-    }
+        turn.textContent = `Turn: ${gameplay.currentSign()}`;
+    };
     const resetTurn = () => {
-        turn.textContent = 'Turn:';
-    }
+        turn.textContent = "Turn:";
+    };
     const closeOverlay = () => {
-        overlay.addEventListener('click', () => {
-            overlay.style.display = 'none';
+        overlay.addEventListener("click", () => {
+            overlay.style.display = "none";
             gameplay.reset();
             displayControl.render();
         });
-    }
-    return { winner, draw, changeTurn, resetTurn, closeOverlay }
+    };
+    return { winner, draw, changeTurn, resetTurn, closeOverlay };
 })();
